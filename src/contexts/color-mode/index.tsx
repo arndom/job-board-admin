@@ -1,8 +1,11 @@
 "use client";
 
+import themeConfig from "@config/theme-config";
+import overrides from "@config/theme/override";
+import typography from "@config/theme/typography";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import { ThemeProvider } from "@mui/material/styles";
+import { createTheme, Theme, ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { RefineThemes } from "@refinedev/mui";
 import Cookies from "js-cookie";
@@ -29,21 +32,7 @@ type ColorModeContextProviderProps = {
 export const ColorModeContextProvider: React.FC<
   PropsWithChildren<ColorModeContextProviderProps>
 > = ({ children, defaultMode }) => {
-  const [isMounted, setIsMounted] = useState(false);
-  const [mode, setMode] = useState(defaultMode || "light");
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const systemTheme = useMediaQuery(`(prefers-color-scheme: dark)`);
-
-  useEffect(() => {
-    if (isMounted) {
-      const theme = Cookies.get("theme") || (systemTheme ? "dark" : "light");
-      setMode(theme);
-    }
-  }, [isMounted, systemTheme]);
+  const [mode, setMode] = useState("light");
 
   const toggleTheme = () => {
     const nextTheme = mode === "light" ? "dark" : "light";
@@ -51,6 +40,16 @@ export const ColorModeContextProvider: React.FC<
     setMode(nextTheme);
     Cookies.set("theme", nextTheme);
   };
+
+  let theme = createTheme(themeConfig);
+
+  const getComponentOverrides = (theme: Theme) => overrides(theme);
+  const getTypography = (theme: Theme) => typography(theme);
+
+  theme = createTheme(theme, {
+    components: getComponentOverrides(theme),
+    typography: getTypography(theme)
+  });
 
   return (
     <ColorModeContext.Provider
@@ -60,8 +59,7 @@ export const ColorModeContextProvider: React.FC<
       }}
     >
       <ThemeProvider
-        // you can change the theme colors here. example: mode === "light" ? RefineThemes.Magenta : RefineThemes.MagentaDark
-        theme={mode === "light" ? RefineThemes.Blue : RefineThemes.BlueDark}
+        theme={theme}
       >
         <CssBaseline />
         <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />

@@ -3,6 +3,7 @@
 import { ColorModeContext } from "@contexts/color-mode";
 import DarkModeOutlined from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlined from "@mui/icons-material/LightModeOutlined";
+import { Box } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
@@ -27,30 +28,40 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   const { data: user } = useGetIdentity<IUser>();
 
   return (
-    <AppBar position={sticky ? "sticky" : "relative"}>
-      <Toolbar>
+    <AppBar
+      position={sticky ? "sticky" : "relative"}
+      sx={{
+        background: (theme) => theme.palette.grey[100],
+        boxShadow: "none",
+      }}
+    >
+      <Toolbar
+        sx={{
+          overflowX: "clip", // allows child avatar button :after styling
+        }}
+      >
         <Stack
           direction="row"
           width="100%"
           justifyContent="flex-end"
           alignItems="center"
         >
-          <HamburgerMenu />
+          <Box
+            sx={{
+              ".MuiSvgIcon-root": {
+                fill: (theme) => theme.palette.primary.main,
+              },
+            }}
+          >
+            <HamburgerMenu />
+          </Box>
+
           <Stack
             direction="row"
             width="100%"
             justifyContent="flex-end"
             alignItems="center"
           >
-            <IconButton
-              color="inherit"
-              onClick={() => {
-                setMode();
-              }}
-            >
-              {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
-            </IconButton>
-
             {(user?.avatar || user?.name) && (
               <Stack
                 direction="row"
