@@ -12,25 +12,34 @@ export const resources: IResourceItem[] = [
     },
   },
   {
-    name: "blog_posts",
-    list: "/blog-posts",
-    create: "/blog-posts/create",
-    edit: "/blog-posts/edit/:id",
-    show: "/blog-posts/show/:id",
+    name: "jobs",
+    list: "/jobs",
+    create: "/jobs/create",
+    edit: "/jobs/edit/:id",
+    show: "/jobs/show/:id",
     meta: {
-      canDelete: true,
+      canDelete: false,
       label: "Jobs"
     },
   },
   {
-    name: "categories",
-    list: "/categories",
-    create: "/categories/create",
-    edit: "/categories/edit/:id",
-    show: "/categories/show/:id",
+    name: "applications",
+    list: "/applications",
+    create: "/applications/create",
+    edit: "/applications/edit/:id",
+    show: "/applications/show/:id",
     meta: {
-      canDelete: true,
-      label: "Applications"
+      canDelete: false
+    },
+  },
+  {
+    name: "applicants",
+    list: "/applicants",
+    create: "/applicants/create",
+    edit: "/applicants/edit/:id",
+    show: "/applicants/show/:id",
+    meta: {
+      canDelete: false
     },
   },
 ];

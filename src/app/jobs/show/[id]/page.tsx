@@ -1,7 +1,7 @@
 "use client";
 
 import { Stack, Typography } from "@mui/material";
-import { useOne, useShow } from "@refinedev/core";
+import { useShow } from "@refinedev/core";
 import {
   DateField,
   MarkdownField,
@@ -10,23 +10,12 @@ import {
 } from "@refinedev/mui";
 
 export default function BlogPostShow() {
-  const { query } = useShow({
-    meta: {
-      select: "*, categories(id,title)",
-    },
-  });
+  const { query } = useShow({});
 
   const { data, isLoading } = query;
 
   const record = data?.data;
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
-    resource: "categories",
-    id: record?.categories?.id || "",
-    queryOptions: {
-      enabled: !!record,
-    },
-  });
 
   return (
     <Show isLoading={isLoading}>
@@ -47,10 +36,6 @@ export default function BlogPostShow() {
         <MarkdownField value={record?.content} />
 
         <Typography variant="body1" fontWeight="bold">
-          {"Category"}
-        </Typography>
-        {categoryIsLoading ? <>Loading...</> : <>{categoryData?.data?.title}</>}
-        <Typography variant="body1" fontWeight="bold">
           {"Status"}
         </Typography>
         <TextField value={record?.status} />
@@ -58,7 +43,7 @@ export default function BlogPostShow() {
         <Typography variant="body1" fontWeight="bold">
           {"CreatedAt"}
         </Typography>
-        <DateField value={record?.createdAt} />
+        <DateField value={record?.created_at} />
       </Stack>
     </Show>
   );

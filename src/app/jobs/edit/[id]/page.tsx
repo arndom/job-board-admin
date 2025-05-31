@@ -1,26 +1,32 @@
 "use client";
 
-import { Autocomplete, Box, MenuItem, Select, TextField } from "@mui/material";
-import { Create, useAutocomplete } from "@refinedev/mui";
+import { Autocomplete, Box, Select, TextField } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import { Edit, useAutocomplete } from "@refinedev/mui";
 import { useForm } from "@refinedev/react-hook-form";
 import { Controller } from "react-hook-form";
 
-export default function BlogPostCreate() {
+export default function BlogPostEdit() {
   const {
     saveButtonProps,
-    refineCore: { formLoading, onFinish },
+    refineCore: { queryResult, formLoading, onFinish },
     handleSubmit,
     register,
     control,
     formState: { errors },
-  } = useForm({});
-
-  const { autocompleteProps: categoryAutocompleteProps } = useAutocomplete({
-    resource: "categories",
+  } = useForm({
+    refineCoreProps: {},
   });
 
+  const blogPostsData = queryResult?.data?.data;
+
+  // const { autocompleteProps: categoryAutocompleteProps } = useAutocomplete({
+  //   resource: "categories",
+  //   defaultValue: blogPostsData?.categories?.id,
+  // });
+
   return (
-    <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
+    <Edit isLoading={formLoading} saveButtonProps={saveButtonProps}>
       <Box
         component="form"
         sx={{ display: "flex", flexDirection: "column" }}
@@ -39,20 +45,7 @@ export default function BlogPostCreate() {
           label={"Title"}
           name="title"
         />
-        <TextField
-          {...register("content", {
-            required: "This field is required",
-          })}
-          error={!!(errors as any)?.content}
-          helperText={(errors as any)?.content?.message}
-          margin="normal"
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          multiline
-          label={"Content"}
-          name="content"
-        />
-        <Controller
+        {/* <Controller
           control={control}
           name={"categoryId"}
           rules={{ required: "This field is required" }}
@@ -98,7 +91,7 @@ export default function BlogPostCreate() {
               )}
             />
           )}
-        />
+        /> */}
         <Controller
           name="status"
           control={control}
@@ -116,7 +109,21 @@ export default function BlogPostCreate() {
             );
           }}
         />
+        <TextField
+          {...register("content", {
+            required: "This field is required",
+          })}
+          error={!!(errors as any)?.content}
+          helperText={(errors as any)?.content?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          multiline
+          label={"Content"}
+          name="content"
+          rows={4}
+        />
       </Box>
-    </Create>
+    </Edit>
   );
 }

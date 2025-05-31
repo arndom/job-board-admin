@@ -1,11 +1,12 @@
 import { CookieOptions, createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { SUPABASE_KEY, SUPABASE_URL } from "./constants";
+import { Database } from "./database.types";
 
 export const createSupabaseServerClient = () => {
   const cookieStore = cookies();
 
-  return createServerClient(SUPABASE_URL, SUPABASE_KEY, {
+  return createServerClient<Database>(SUPABASE_URL, SUPABASE_KEY, {
     cookies: {
       get(name: string) {
         return cookieStore.get(name)?.value;
