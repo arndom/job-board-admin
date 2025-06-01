@@ -8,38 +8,33 @@ export const resources: IResourceItem[] = [
     meta: {
       canDelete: true,
       icon: <Dashboard />,
-      label: "Dashboard"
+      label: "Dashboard",
     },
   },
   {
     name: "jobs",
     list: "/jobs",
-    create: "/jobs/create",
-    edit: "/jobs/edit/:id",
     show: "/jobs/show/:id",
     meta: {
       canDelete: false,
-      label: "Jobs"
+      label: "Jobs",
     },
   },
   {
     name: "applications",
     list: "/applications",
-    create: "/applications/create",
-    edit: "/applications/edit/:id",
     show: "/applications/show/:id",
     meta: {
-      canDelete: false
+      canDelete: false,
     },
   },
   {
     name: "applicants",
     list: "/applicants",
-    create: "/applicants/create",
-    edit: "/applicants/edit/:id",
     show: "/applicants/show/:id",
     meta: {
-      canDelete: false
+      canDelete: false,
+      label: "Candidates"
     },
   },
 ];

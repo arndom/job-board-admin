@@ -1,62 +1,74 @@
 "use client";
 
 import DataGridSelectChip from "@components/datagrid-select-chip";
-import { Avatar, Box, Link, ListItem, Typography } from "@mui/material";
-import { DataGrid, GridActionsCellItem, type GridColDef } from "@mui/x-data-grid";
+import { Box, ListItem, Typography } from "@mui/material";
 import {
-  DateField,
-  DeleteButton,
-  EditButton,
-  List,
-  ShowButton,
-  useDataGrid,
-} from "@refinedev/mui";
-import { Constants, Tables } from "@utils/supabase/database.types";
+  DataGrid,
+  GridActionsCellItem,
+  type GridColDef,
+} from "@mui/x-data-grid";
+import { CreateButton, ShowButton, useDataGrid } from "@refinedev/mui";
+import {
+  Constants,
+  Tables,
+  TablesInsert,
+} from "@utils/supabase/database.types";
 import { countries, jobStatusColors } from "@utils/data";
 import React from "react";
 import Image from "next/image";
 import { formatTimeAgo } from "@utils";
-import { useMany } from "@refinedev/core";
+import { HttpError, useList } from "@refinedev/core";
 import PageList from "@components/page-list";
+import { useModalForm } from "@refinedev/react-hook-form";
+import { Nullable } from "@utils/types";
+import JobFormModal from "@components/pages/jobs/job-form-modal";
+import Link from "next/link";
 
 export default function JobList() {
   const { dataGridProps } = useDataGrid({
     syncWithLocation: true,
+    sorters: {
+      initial: [
+        {
+          field: "last_modified",
+          order: "desc"
+        }
+      ]
+    }
   });
 
-  const { data: applicationsData, isLoading: applicationsDataIsLoading } = useMany<Tables<"applications">>({
-    resource: "applications",
-    ids:
-      dataGridProps?.rows
-        ?.map((item) => item?.applications?.id)
-        .filter(Boolean) ?? [],
-    queryOptions: {
-      enabled: !!dataGridProps?.rows,
-    },
+  const createModalFormProps = useModalForm<
+    TablesInsert<"jobs">,
+    HttpError,
+    Nullable<TablesInsert<"jobs">>
+  >({
+    refineCoreProps: { action: "create" },
+    syncWithLocation: true,
+    defaultValues: {
+      company_name: "NotGoogle",
+      company_logo: "https://logo.clearbit.com/google.com"
+    }
   });
+  const {
+    modal: { show: showCreateModal },
+  } = createModalFormProps;
+
+  const { data: applicationsData, isLoading: applicationsDataIsLoading } =
+    useList<Tables<"applications">>({
+      resource: "applications",
+    });
 
   const columns = React.useMemo<GridColDef<Tables<"jobs">>[]>(
     () => [
-      {
+            {
         field: "title",
-        headerName: "Job title",
-        display: "flex",
-        flex: 0.2,
-      },
-      {
-        field: "company_name",
-        headerName: "Company",
+        headerName: "Job Title",
         display: "flex",
         flex: 0.2,
         renderCell: function render({ row }) {
           return (
-            <Box
-              sx={{ display: "flex", gap: 1, alignItems: "center" }}
-              component={Link}
-              href={`/jobs/show/${row.id}`}
-            >
-              <Avatar src={row.company_logo!} sx={{ width: 26, height: 26 }} />
-              <Typography variant="body2">{row.company_name}</Typography>
+            <Box component={Link} href={`/jobs/show/${row.id}`}>
+              <Typography variant="body2">{row.title}</Typography>
             </Box>
           );
         },
@@ -80,7 +92,7 @@ export default function JobList() {
       },
       {
         field: "country",
-        headerName: "Country",
+        headerName: "Job Location",
         display: "flex",
         flex: 0.25,
         renderCell: function render({ row }) {
@@ -114,22 +126,40 @@ export default function JobList() {
         headerName: "Applications",
         display: "flex",
         flex: 0.15,
-         renderCell: function render({ row }) {
+        renderCell: function render({ row }) {
           return applicationsDataIsLoading ? (
             <>Loading...</>
           ) : (
-            applicationsData?.data?.filter((item) => item.job_id === row?.id)?.length ?? 0
+            applicationsData?.data?.filter((item) => item.job_id === row?.id)
+              ?.length ?? 0
           );
         },
       },
       {
         field: "created_at",
-        headerName: "Date posted",
+        headerName: "Date Posted",
         display: "flex",
         renderCell: function render({ value }) {
-          return <Typography variant="body2">{formatTimeAgo(value)}</Typography>;
+          return (
+            <Typography variant="body2">
+              {value ? formatTimeAgo(value) : "NULL"}
+            </Typography>
+          );
         },
-        flex: 0.2,
+        flex: 0.1,
+      },
+      {
+        field: "last_modified",
+        headerName: "Last Modified",
+        display: "flex",
+        renderCell: function render({ value }) {
+          return (
+            <Typography variant="body2">
+              {value ? formatTimeAgo(value) : "NULL"}
+            </Typography>
+          );
+        },
+        flex: 0.1,
       },
       {
         field: "actions",
@@ -148,17 +178,9 @@ export default function JobList() {
               showInMenu
               component={() => (
                 <ListItem>
-                  <ShowButton size="small" title="View" recordItemId={row.id} >View</ShowButton>
-                </ListItem>
-              )}
-            />,
-            <GridActionsCellItem
-              key="edit"
-              label=""
-              showInMenu
-              component={() => (
-                <ListItem>
-                  <EditButton size="small" title="Edit" recordItemId={row.id} />
+                  <ShowButton size="small" title="View" recordItemId={row.id}>
+                    View
+                  </ShowButton>
                 </ListItem>
               )}
             />,
@@ -170,8 +192,18 @@ export default function JobList() {
   );
 
   return (
-    <PageList>
-      <DataGrid {...dataGridProps} columns={columns} />
-    </PageList>
+    <>
+      <PageList
+        headerButtons={() => (
+          <CreateButton onClick={() => showCreateModal()}>
+            Create Job
+          </CreateButton>
+        )}
+      >
+        <DataGrid {...dataGridProps} columns={columns} />
+      </PageList>
+
+      <JobFormModal form={createModalFormProps} />
+    </>
   );
 }

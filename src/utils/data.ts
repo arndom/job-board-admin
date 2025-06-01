@@ -4,6 +4,20 @@ export const jobStatusColors =  {
   closed: "red.500"
 }
 
+export const applicationStatusColors =  {
+  callback: "blue.500",
+  interviewing: "orange.500",
+  hired: "green.500",
+  rejected: "red.500"
+}
+
+export const seniorityLevelStatusColors =  {
+  junior: "green.500",
+  "mid-level": "blue.500",
+  senior: "red.500"
+}
+
+
 // From https://bitbucket.org/atlassian/atlaskit-mk-2/raw/4ad0e56649c3e6c973e226b7efaeb28cb240ccb0/packages/core/select/src/data/countries.js
 export const countries = [
   { code: 'AD', label: 'Andorra', phone: '376' },

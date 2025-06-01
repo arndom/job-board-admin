@@ -12,6 +12,10 @@ export const AuthPage = (props: AuthPageProps) => {
           password: "demo-jobboard-admin",
         },
       }}
+      // @ts-ignore
+      rememberMe={<></>}
+      forgotPasswordLink={<></>}
+      registerLink={<></>}
     />
   );
 };

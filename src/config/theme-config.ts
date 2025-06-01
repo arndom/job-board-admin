@@ -34,7 +34,8 @@ const themeConfig: ThemeOptions = {
         },
 
         a: {
-          textDecoration: "none",
+          textDecoration: "underline",
+          textDecorationColor: alpha(colors.blue["500"], 0.4),
           color: "inherit"
         },
 

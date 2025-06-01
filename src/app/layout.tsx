@@ -51,6 +51,9 @@ export default function RootLayout({
                       warnWhenUnsavedChanges: true,
                       useNewQueryKeys: true,
                       projectId: "nnGS57-r60xng-aSgmds",
+                      title: {
+                          text: "JobBoard Admin"
+                        }
                     }}
                   >
                     {children}

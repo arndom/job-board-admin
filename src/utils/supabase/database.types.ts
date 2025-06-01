@@ -11,7 +11,9 @@ export type Database = {
     Tables: {
       applicants: {
         Row: {
+          cover_letter_url: string | null
           created_at: string | null
+          cv_url: string | null
           email: string
           id: string
           job_preferences: Json | null
@@ -22,7 +24,9 @@ export type Database = {
           trust_level: number | null
         }
         Insert: {
+          cover_letter_url?: string | null
           created_at?: string | null
+          cv_url?: string | null
           email: string
           id?: string
           job_preferences?: Json | null
@@ -33,7 +37,9 @@ export type Database = {
           trust_level?: number | null
         }
         Update: {
+          cover_letter_url?: string | null
           created_at?: string | null
+          cv_url?: string | null
           email?: string
           id?: string
           job_preferences?: Json | null
@@ -57,8 +63,8 @@ export type Database = {
           id: string
           job_id: string | null
           last_modified: string | null
+          match: number | null
           seniority_level: string | null
-          skill_match: number | null
           status: Database["public"]["Enums"]["application_status"] | null
         }
         Insert: {
@@ -72,8 +78,8 @@ export type Database = {
           id?: string
           job_id?: string | null
           last_modified?: string | null
+          match?: number | null
           seniority_level?: string | null
-          skill_match?: number | null
           status?: Database["public"]["Enums"]["application_status"] | null
         }
         Update: {
@@ -87,8 +93,8 @@ export type Database = {
           id?: string
           job_id?: string | null
           last_modified?: string | null
+          match?: number | null
           seniority_level?: string | null
-          skill_match?: number | null
           status?: Database["public"]["Enums"]["application_status"] | null
         }
         Relationships: [
@@ -110,7 +116,7 @@ export type Database = {
       }
       jobs: {
         Row: {
-          benefits: string[] | null
+          benefits: string | null
           company_logo: string | null
           company_name: string
           company_size: string | null
@@ -122,18 +128,18 @@ export type Database = {
           last_modified: string | null
           location: string | null
           remote_type: Database["public"]["Enums"]["remote_type_enum"] | null
-          requirements: string[] | null
+          requirements: string | null
           salary: string | null
           seniority_level:
             | Database["public"]["Enums"]["seniority_level_enum"]
             | null
-          skills: string[] | null
+          skills: string | null
           status: Database["public"]["Enums"]["job_status"] | null
           timezone: string | null
           title: string
         }
         Insert: {
-          benefits?: string[] | null
+          benefits?: string | null
           company_logo?: string | null
           company_name: string
           company_size?: string | null
@@ -145,18 +151,18 @@ export type Database = {
           last_modified?: string | null
           location?: string | null
           remote_type?: Database["public"]["Enums"]["remote_type_enum"] | null
-          requirements?: string[] | null
+          requirements?: string | null
           salary?: string | null
           seniority_level?:
             | Database["public"]["Enums"]["seniority_level_enum"]
             | null
-          skills?: string[] | null
+          skills?: string | null
           status?: Database["public"]["Enums"]["job_status"] | null
           timezone?: string | null
           title: string
         }
         Update: {
-          benefits?: string[] | null
+          benefits?: string | null
           company_logo?: string | null
           company_name?: string
           company_size?: string | null
@@ -168,12 +174,12 @@ export type Database = {
           last_modified?: string | null
           location?: string | null
           remote_type?: Database["public"]["Enums"]["remote_type_enum"] | null
-          requirements?: string[] | null
+          requirements?: string | null
           salary?: string | null
           seniority_level?:
             | Database["public"]["Enums"]["seniority_level_enum"]
             | null
-          skills?: string[] | null
+          skills?: string | null
           status?: Database["public"]["Enums"]["job_status"] | null
           timezone?: string | null
           title?: string
@@ -188,7 +194,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      application_status: "callback" | "interviewing" | "rejected"
+      application_status: "callback" | "interviewing" | "rejected" | "hired"
       job_status: "open" | "interviewing" | "closed"
       job_type_enum: "full-time" | "part-time" | "contract" | "internship"
       remote_type_enum: "remote" | "hybrid" | "onsite"
@@ -308,7 +314,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      application_status: ["callback", "interviewing", "rejected"],
+      application_status: ["callback", "interviewing", "rejected", "hired"],
       job_status: ["open", "interviewing", "closed"],
       job_type_enum: ["full-time", "part-time", "contract", "internship"],
       remote_type_enum: ["remote", "hybrid", "onsite"],
