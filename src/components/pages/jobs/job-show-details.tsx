@@ -52,6 +52,17 @@ const JobShowDetails = (props: Props) => {
   return (
     <>
       <SingleElementForm
+        state="view"
+        hideEdit
+        itemProps={{
+          name: "",
+          label: "Job Email",
+        }}
+        inputType="text"
+        view={<Typography>{record.email}</Typography>}
+      />
+
+      <SingleElementForm
         useFormProps={{
           refineCoreProps: {
             id: record.id,
@@ -126,12 +137,10 @@ const JobShowDetails = (props: Props) => {
           </Typography>
         }
         inputType="select"
-        options={Constants["public"]["Enums"]["job_type_enum"].map(
-          (v) => ({
-            value: v,
-            label: v,
-          })
-        )}
+        options={Constants["public"]["Enums"]["job_type_enum"].map((v) => ({
+          value: v,
+          label: v,
+        }))}
         onClick={() => setActiveForm("job_type")}
         onUpdate={() => setActiveForm(undefined)}
         onCancel={() => setActiveForm(undefined)}
@@ -256,15 +265,6 @@ const JobShowDetails = (props: Props) => {
       />
 
       <SingleElementForm
-        useFormProps={{
-          refineCoreProps: {
-            id: record.id,
-            resource: "jobs",
-          },
-          defaultValues: {
-            company_name: record.company_name,
-          },
-        }}
         state="view"
         hideEdit
         itemProps={{
@@ -272,22 +272,9 @@ const JobShowDetails = (props: Props) => {
           label: "Company Name",
         }}
         inputType="text"
-        view={<Typography>{record.company_name}</Typography>}
-        onClick={() => setActiveForm("company_name")}
-        onUpdate={() => setActiveForm(undefined)}
-        onCancel={() => setActiveForm(undefined)}
       />
 
       <SingleElementForm
-        useFormProps={{
-          refineCoreProps: {
-            id: record.id,
-            resource: "jobs",
-          },
-          defaultValues: {
-            company_logo: record.company_logo,
-          },
-        }}
         state="view"
         hideEdit
         itemProps={{

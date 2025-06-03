@@ -1,17 +1,23 @@
-export const jobStatusColors =  {
+export const jobStatusColors = {
   open: "green.500",
   interviewing: "blue.500",
   closed: "red.500"
 }
+export const jobTypeColors = {
+  "full-time": "blue.600",
+  "part-time": "orange.500",
+  "contract": "yellow.500",
+  "internship": "grey.500"
+}
 
-export const applicationStatusColors =  {
+export const applicationStatusColors = {
   callback: "blue.500",
   interviewing: "orange.500",
   hired: "green.500",
   rejected: "red.500"
 }
 
-export const seniorityLevelStatusColors =  {
+export const seniorityLevelStatusColors = {
   junior: "green.500",
   "mid-level": "blue.500",
   senior: "red.500"

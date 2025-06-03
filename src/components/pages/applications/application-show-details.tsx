@@ -1,11 +1,11 @@
-import SingleElementForm from '@components/single-element-form';
-import { Box, LinearProgress, Typography } from '@mui/material';
-import { useOne } from '@refinedev/core';
-import { Tables } from '@utils/supabase/database.types';
-import React, { useState } from 'react'
+import SingleElementForm from "@components/single-element-form";
+import { Box, LinearProgress, Typography } from "@mui/material";
+import { useOne } from "@refinedev/core";
+import { Tables } from "@utils/supabase/database.types";
+import React, { useState } from "react";
 
 interface Props {
-  id: string
+  id: string;
 }
 
 type FormKeys = keyof Tables<"applications">;
@@ -17,6 +17,13 @@ const ApplicationShowDetails = (props: Props) => {
     id,
   });
   const record = data?.data;
+
+  const { data: applicantData, isLoading: applicantDataIsLoading } = useOne<
+    Tables<"applicants">
+  >({
+    resource: "applicants",
+    id: record?.applicant_id ?? undefined,
+  });
 
   const [activeForm, setActiveForm] = useState<FormKeys>();
   const getActiveForm = (key: FormKeys) => {
@@ -51,11 +58,11 @@ const ApplicationShowDetails = (props: Props) => {
   return (
     <>
       <Box
-      sx={{
-        p: "0.5rem 0.8rem",
+        sx={{
+          p: "0.5rem 0.8rem",
           borderBottom: (theme) => `1px solid ${theme.palette.grey["400"]}`,
-
-      }}>
+        }}
+      >
         <Typography fontWeight={500}> Job Match</Typography>
 
         <Box
@@ -76,6 +83,25 @@ const ApplicationShowDetails = (props: Props) => {
           </Box>
         </Box>
       </Box>
+
+      <SingleElementForm
+        state="view"
+        itemProps={{
+          name: "",
+          label: "Applicant email",
+        }}
+        inputType="textarea"
+        view={
+          <Typography>
+            {applicantDataIsLoading
+              ? "..."
+              : applicantData
+              ? applicantData.data.email
+              : "N/A"}
+          </Typography>
+        }
+        hideEdit
+      />
 
       <SingleElementForm
         useFormProps={{
@@ -122,6 +148,6 @@ const ApplicationShowDetails = (props: Props) => {
       />
     </>
   );
-}
+};
 
-export default ApplicationShowDetails
+export default ApplicationShowDetails;

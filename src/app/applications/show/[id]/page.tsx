@@ -2,6 +2,7 @@
 
 import { Breadcrumbs } from "@components/breadcrumbs";
 import CardAvatarWithName from "@components/card-avatar-with-name";
+import ApplicationShowCommunications from "@components/pages/applications/application-show-communications";
 import ApplicationShowDetails from "@components/pages/applications/application-show-details";
 import SingleElementForm from "@components/single-element-form";
 import TabPanelContent from "@components/tab-panel-content";
@@ -124,7 +125,7 @@ export default function ApplicationShow() {
                       href={`/applicants/show/${
                         applicantDataIsLoading ? "..." : applicantData ? applicantData.data.id : "#"
                       }`}
-                      target="__blank"
+                      target="_blank"
                     >
                       <OpenInNewOutlined fontSize="small" />
                     </IconButton>
@@ -165,7 +166,7 @@ export default function ApplicationShow() {
                                 ? jobData.data.id
                                 : "#"
                             }`}
-                            target="__blank"
+                            target="_blank"
                             sx={{
                               mr: "-0.8rem",
                             }}
@@ -302,6 +303,20 @@ export default function ApplicationShow() {
                       >
                         <TabPanelContent>
                           <ApplicationShowDetails id={String(showId)} />
+                        </TabPanelContent>
+                      </TabPanel>
+
+                      <TabPanel
+                        value="comms"
+                        sx={{
+                          p: {
+                            xs: 0,
+                            sm: 1,
+                          },
+                        }}
+                      >
+                        <TabPanelContent>
+                          <ApplicationShowCommunications id={String(showId)} />
                         </TabPanelContent>
                       </TabPanel>
                     </Box>

@@ -13,7 +13,7 @@ import {
   Tables,
   TablesInsert,
 } from "@utils/supabase/database.types";
-import { countries, jobStatusColors } from "@utils/data";
+import { countries, jobStatusColors, jobTypeColors } from "@utils/data";
 import React from "react";
 import Image from "next/image";
 import { formatTimeAgo } from "@utils";
@@ -86,6 +86,23 @@ export default function JobList() {
               field="status"
               options={Constants["public"]["Enums"]["job_status"]}
               optionColors={jobStatusColors}
+            />
+          );
+        },
+      },
+      {
+        field: "job_type",
+        headerName: "Type",
+        display: "flex",
+        flex: 0.15,
+        renderCell: function render({ row }) {
+          return (
+            <DataGridSelectChip
+              resource="jobs"
+              id={row.id}
+              field="job_type"
+              options={Constants["public"]["Enums"]["job_type_enum"]}
+              optionColors={jobTypeColors}
             />
           );
         },

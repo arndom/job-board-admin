@@ -114,6 +114,50 @@ export type Database = {
           },
         ]
       }
+      emails: {
+        Row: {
+          application_id: string | null
+          body: string | null
+          direction: string
+          id: string
+          in_reply_to: string | null
+          message_id: string | null
+          sender_type: string
+          sent_at: string | null
+          subject: string | null
+        }
+        Insert: {
+          application_id?: string | null
+          body?: string | null
+          direction: string
+          id?: string
+          in_reply_to?: string | null
+          message_id?: string | null
+          sender_type: string
+          sent_at?: string | null
+          subject?: string | null
+        }
+        Update: {
+          application_id?: string | null
+          body?: string | null
+          direction?: string
+          id?: string
+          in_reply_to?: string | null
+          message_id?: string | null
+          sender_type?: string
+          sent_at?: string | null
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "emails_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       jobs: {
         Row: {
           benefits: string | null
@@ -123,6 +167,7 @@ export type Database = {
           country: string | null
           created_at: string | null
           description: string | null
+          email: string | null
           id: string
           job_type: Database["public"]["Enums"]["job_type_enum"] | null
           last_modified: string | null
@@ -146,6 +191,7 @@ export type Database = {
           country?: string | null
           created_at?: string | null
           description?: string | null
+          email?: string | null
           id?: string
           job_type?: Database["public"]["Enums"]["job_type_enum"] | null
           last_modified?: string | null
@@ -169,6 +215,7 @@ export type Database = {
           country?: string | null
           created_at?: string | null
           description?: string | null
+          email?: string | null
           id?: string
           job_type?: Database["public"]["Enums"]["job_type_enum"] | null
           last_modified?: string | null

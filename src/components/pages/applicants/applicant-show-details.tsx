@@ -1,4 +1,5 @@
 import SingleElementForm from "@components/single-element-form";
+import { RemoveRedEye } from "@mui/icons-material";
 import { Box, LinearProgress, Typography } from "@mui/material";
 import { useOne } from "@refinedev/core";
 import { Tables } from "@utils/supabase/database.types";
@@ -69,7 +70,31 @@ const ApplicantShowDetails = (props: Props) => {
           label: "Current CV",
         }}
         inputType="textarea"
-        view={<Typography>{record.cv_url}</Typography>}
+        view={(() => {
+          if (!record.cv_url) return <p>None</p>;
+
+          return (
+            <Box
+              component="a"
+              href={record.cv_url ?? ""}
+              target="_blank"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: "text.primary",
+                gap: 1,
+                p: {
+                  textDecoration: "none",
+                },
+              }}
+            >
+              <Typography fontWeight={500} color="primary">
+                View CV
+              </Typography>
+              <RemoveRedEye fontSize="small" color="primary" />
+            </Box>
+          );
+        })()}
         hideEdit
       />
 
@@ -80,7 +105,31 @@ const ApplicantShowDetails = (props: Props) => {
           label: "Cover letter",
         }}
         inputType="textarea"
-        view={<Typography>{record.cover_letter_url}</Typography>}
+        view={(() => {
+          if (!record.cover_letter_url) return <p>None</p>;
+
+          return (
+            <Box
+              component="a"
+              href={record.cover_letter_url ?? ""}
+              target="_blank"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: "text.primary",
+                gap: 1,
+                p: {
+                  textDecoration: "none",
+                },
+              }}
+            >
+              <Typography fontWeight={500} color="primary">
+                View Cover Letter
+              </Typography>
+              <RemoveRedEye fontSize="small" color="primary" />
+            </Box>
+          );
+        })()}
         hideEdit
       />
     </>
