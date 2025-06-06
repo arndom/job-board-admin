@@ -69,7 +69,6 @@ Deno.serve(async (req) => {
     return new Response('Skipping application flow — this is a reply.', { status: 200 });
   }
 
-  // Find job by email field (you should ensure your jobs table has a unique email per job)
   const { data: job, error: jobError } = await supabase.from('jobs').select('*').eq('email', toEmail).single();
   if (jobError || !job?.id) {
     console.error('Job not found:', jobError);
